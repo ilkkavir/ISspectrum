@@ -1,0 +1,9 @@
+Package: ISspectrum
+Version: 0.1-0
+Date: 2011-06-22
+Title: Incoherent scatter spectrum calculation
+Author: Ilkka Virtanen <ilkka.i.virtanen@oulu.fi> 
+Maintainer: Ilkka Virtanen <ilkka.i.virtanen@oulu.fi>
+Description: R-interface to GUISDAP C-routines for incoherent scatter spectrum calculation
+License:
+Depends: iri2011

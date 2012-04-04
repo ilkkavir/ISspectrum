@@ -1,0 +1,2 @@
+export(ISspectrum.3D,ISspectrum.general,ISspectrum.guisdap,ISspectrum.iri)
+useDynLib(ISspectrum)
