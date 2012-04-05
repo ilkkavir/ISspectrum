@@ -1,18 +1,17 @@
-ISspectrum.iri <- function( time = c(2000,1,1,11,0,0) , latitude=69.58864 , longitude=19.2272 , heights=seq(1,1000) , fradar=233e6,scattAngle=180,freq=seq(-1000,1000)*4)
+ISspectrum.iri <- function( time = c(2000,1,1,11,0,0) , latitude=69.58864 , longitude=19.2272 , heights=seq(1,1000) , fradar=233e6,scattAngle=180,freq=seq(-1000,1000)*4,savePlasmaParams=FALSE)
   {
 
     
     iripar <- iriParams( time=time , latitude=latitude , longitude=longitude , heights=heights)
 
-    # the iri model returns -1 at heights where electron and ion densities are not calculated.
-    # replace these -1's with zeroes
-    iripar['e-' ,iripar['e-',] <0] <- 0
-    iripar['O+' ,iripar['O+',] <0] <- 0
-    iripar['H+' ,iripar['H+',] <0] <- 0
-    iripar['He+',iripar['He+',]<0] <- 0
-    iripar['O2+',iripar['O2+',]<0] <- 0
-    iripar['N+' ,iripar['N+',] <0] <- 0
-    iripar['NO+',iripar['NO+',]<0] <- 0
+
+    # the iri model returns -1 at heights where densities are not calculated
+    ions <- c('O+','H+','He+','O2+','N+','NO+')
+    neutrals <- c('O','H','He','O2','N','N2')
+
+    for(n in c(ions,neutrals)) iripar[n,iripar[n,]<0] <- 0
+      
+    if(savePlasmaParams) save(iripar,file='ISspectrum.iri.PlasmaParam.Rdata')
 
     nh <- length(heights)
     nf <- length(freq)
