@@ -57,9 +57,12 @@ ISspectrum.general <- function(ele=c(1e11,300,0,0),ion=list(c(30.5,.7e11,300,0,0
   # speed of light
   c <- 299792458.
 
-  # scattering wave number
-  ks <- 4*pi*fradar/c * sin(scattAngle/2*pi/180)
- 
+  # scattering wave number for backscattering
+  ks0 <- 4*pi*fradar/c
+
+  # actual scattering wave number
+  ks <- ks0 * sin(scattAngle/2*pi/180)
+
   # (k*D)^2
   kd2 <- ks**2 * D**2
 
