@@ -100,7 +100,7 @@ ISspectrum.general <- function(ele=c(1e11,300,0,0),ion=list(c(30.5,.7e11,300,0,0
    pldfIntTab <<- pldfvv()
   }
 
- # the spectrum
+ # the spectrum  (4*pi*r_e**2 = 9.978688e-29 m**2, Vallinkoski 1989)
  s <- specCalc(pldfIntTab,nin0,tit0,mim0,psi,vi,kd2,om) * 9.978688e-29 / om0
 
  return(s)
