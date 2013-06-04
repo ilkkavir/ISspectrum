@@ -26,6 +26,6 @@ pldfvv <- function(){
     }
   }
 
-  return(pldfvv)
+  return(list(Re=Re(pldfvv),Im=Im(pldfvv)))
 
 }

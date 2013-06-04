@@ -4,8 +4,8 @@ specCalc <- function(pldfv,nin0,tit0,mim0,psi,vi,kd2,om){
   nion <- length(mim0)-1
 
   tmp <- .C("specCalc",
-             pldfvPr = as.double(Re(pldfv)),
-	     pldfvPi = as.double(Im(pldfv)),
+             pldfvPr = as.double(pldfv[["Re"]]),
+	     pldfvPi = as.double(pldfv[["Im"]]),
 	     nin0Pr  = as.double(nin0),
 	     tit0Pr  = as.double(tit0),
 	     nion    = as.integer(nion),
@@ -17,7 +17,8 @@ specCalc <- function(pldfv,nin0,tit0,mim0,psi,vi,kd2,om){
 	     nom     = as.integer(nom),
 	     omPr    = as.double(om),
 	     resPr   = as.double(rep(0,nom)),
-	     ifref   = as.integer(0)
+	     ifref   = as.integer(0),
+             DUP=FALSE
 	   )
 
   return(tmp$resPr)
