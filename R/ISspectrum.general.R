@@ -1,14 +1,14 @@
 ISspectrum.general <- function(ele=c(1e11,300,0,0),ion=list(c(30.5,.7e11,300,0,0),c(16,.3e11,300,0,0),c(1,0,300,0,0)),fradar=933e6,scattAngle=180,freq=seq(-1000,1000)*10){
-# 
-# a general incoherent scatter spectrum calculation, with max 7  singly-charged ions. 
-# 
+#
+# a general incoherent scatter spectrum calculation, with max 7  singly-charged ions.
+#
 # INPUT:
 #  ele         c(Ne,Te,nu_en,ve)
 #  ion         list( c(m1,N1,T1,nu_1n,v1) , c(m2,N2,T2,nu_2n,v2) , ... )
 #  fradar      radar frequency
 #  scattAngle  scattering angle (the angle between incident and scattered wave vectors, 180 for backscattering)
 #  freq        frequency axis
-# 
+#
 #  ion masses in amu
 #  ion densities can be given as absolute values, but they are treated as relative abundances, so that sum(Ni) = Ne
 #  only singly-charged ions at the moment
@@ -18,9 +18,9 @@ ISspectrum.general <- function(ele=c(1e11,300,0,0),ion=list(c(30.5,.7e11,300,0,0
 #
 #  OUTPUT:
 #   a vector of power spectral densities at the given frequencies
-# 
+#
 # I. Virtanen 2011
-# 
+#
 
 
  # transform the parameters
@@ -40,20 +40,20 @@ ISspectrum.general <- function(ele=c(1e11,300,0,0),ion=list(c(30.5,.7e11,300,0,0
   kb <- 1.3806503e-23
 
   # atomic mass unit
-  amu <- 1.66053886e-27
+  amu <- 1.660538921e-27
 
   # electron mass in amy
-  me <- 0.000548579867
+  me <- 0.00054857990943
 
   # electron charge
-  q <- 1.60217646e-19
+  q <- 1.60217657e-19
 
   # permittivity of free space
   eps0 <- 8.85418782e-12
- 
+
   # debye length
   D <- sqrt(eps0*kb/q**2)
- 
+
   # speed of light
   c <- 299792458.
 
@@ -73,7 +73,7 @@ ISspectrum.general <- function(ele=c(1e11,300,0,0),ion=list(c(30.5,.7e11,300,0,0
   # normalized parameters
   nin0[nIon+1] <- ele[1]		# electron density
   tit0[nIon+1] <- ele[2]     		# electron temperature
-  mim0[nIon+1] <- me         		# electron mass 
+  mim0[nIon+1] <- me         		# electron mass
   psi[nIon+1]  <- ele[3]     		# electron-neutral collision frequency
   vi[nIon+1]   <- 4*pi*fradar*ele[4]/c  # Doppler shift corresponding the electron velocity
 
