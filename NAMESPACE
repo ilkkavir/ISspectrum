@@ -1,2 +1,2 @@
-export(ISspectrum.3D,ISspectrum.general,ISspectrum.guisdap,ISspectrum.iri)
+export(ISspectrum.3D,ISspectrum.general,ISspectrum.guisdap,ISspectrum.iri,incoherentScatterSpectrum)
 useDynLib(ISspectrum)

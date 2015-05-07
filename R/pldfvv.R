@@ -1,12 +1,11 @@
 pldfvv <- function(){
-# 
+#
 # plasma dispersion function interpolation table for spectrum calculations
-# 
+#
 # I. Virtanen 2011
-# 
+#
 
-  Q <- matrix( c( -1.0/6.0 , 0.5 , -1.0/3.0 , 0.0 , 0.5 , -1.0 , -0.5 , 1.0 , -0.5 , 0.5 , 1.0 , 0.0 , 1.0/6.0 , 0.0 , -1.0/6.0 , 0.0 ),
-       	       ncol=4 , nrow=4)
+  Q <- matrix( c( -1.0/6.0 , 0.5 , -1.0/3.0 , 0.0 , 0.5 , -1.0 , -0.5 , 1.0 , -0.5 , 0.5 , 1.0 , 0.0 , 1.0/6.0 , 0.0 , -1.0/6.0 , 0.0 ), ncol=4 , nrow=4)
 
   f <- matrix(0+0i,nrow=67,ncol=65)
 

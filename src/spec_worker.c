@@ -5,7 +5,7 @@ Markku Lehtinen 07/1995
 */
 /*
 2011.06.23 IV:
-  All functions are now modified so that all their arguments are either double or integer pointers. 
+  All functions are now modified so that all their arguments are either double or integer pointers.
  */
 
 #include <stdlib.h>
@@ -21,7 +21,7 @@ void pldfas(double *retR,double *retI,double *zR,double *zI)
 {
 	register double termR,termI,ckfR,ckfI,resI,resR,zRR,zII,izRRpII,izRRpII2;
 	double termRold;
-	
+
         zRR = (*zR) * (*zR); zII = (*zI) * (*zI);
 	izRRpII= 1.0 / (zRR+zII);
 	izRRpII2=izRRpII*izRRpII;
@@ -41,7 +41,7 @@ void pldfas(double *retR,double *retI,double *zR,double *zI)
 	resR = resR + termR;
 	resI = resI + termI;
 
-/*if more accuracy is desired, add the following 
+/*if more accuracy is desired, add the following
    		(and then seven similar lines with *7.0 instead of *5.0 etc .... )
 	termR = termR*5.0;
 	termI = termI*5.0;
@@ -55,8 +55,8 @@ void pldfas(double *retR,double *retI,double *zR,double *zI)
 	*retI = ((*zR)*resI - resR*(*zI))*izRRpII;
 }
 
-/* 
-Admittance calculation for each flake 
+/*
+Admittance calculation for each flake
 input parameters:
 nom: number of frequencies in omega-axis
 pldfvPr, pldfvPi : pointers (real and imaginary) to 4-degree Lagrange
@@ -66,7 +66,7 @@ pldfvPr, pldfvPi : pointers (real and imaginary) to 4-degree Lagrange
 omv: Spectrum axis input.
 vi: normalized speed of flake
 psi: normalized collision frequency of flake
-gam: normalized scale depending on temperature of flake. 
+gam: normalized scale depending on temperature of flake.
 output:
 apuprv, apupiv : Admittance result real and imaginary part vectors.
 				 We store values that are independent of Ni for each
@@ -88,25 +88,29 @@ void adminvec(int *nom,double *pldfvPr,double *pldfvPi,double *apuprv,double *ap
 	double test;
 
 
-	/* (negative collision frequencies need not be handled correctly */	
-	if (*psi <= -0.03125) { *psi = -0.03125; } 
-	/* pldf is tabulated at 1.0/16.0 intervals, normalize arguments to that 
+	/* (negative collision frequencies need not be handled correctly */
+	//	if (*psi <= -0.03125) { *psi = -0.03125; }
+	if ( ((*psi) * (*gam) ) <= -0.03125) { *psi = -0.03125/(*gam); }
+	/* pldf is tabulated at 1.0/16.0 intervals, normalize arguments to that
 	   and calculate integer anf fractional parts :*/
-	y = *psi*16.0;
+	//	y = *psi*16.0;
+	y = (*psi)*(*gam)*16.0;
 	ffy=(long)(y+0.5);
-	pI=-(y-ffy); 
+	pI=-(y-ffy);
 	for (k=0;k<(*nom);k++) {
 	  zR = (omv[k]-(*vi)) * (*gam);
 	  if (zR<0) {x = -zR*16.0;} else {x = zR*16.0;} /* use symmetry */
-	  if (  (x >= (3.9*16.0) ) || ( *psi >= 3.5 ) ) { /* asymptotic formula */
-	    psi2 = -*psi;
+	  //	  if (  (x >= (3.9*16.0) ) || ( *psi >= 3.5 ) ) { /* asymptotic formula */
+	  if (  (x >= (3.9*16.0) ) || ( ((*psi)*(*gam)) >= 3.5 ) ) { /* asymptotic formula */
+	    //	    psi2 = -*psi;
+	    psi2 = -(*psi)*(*gam);
 	    pldfas(&resR,&resI,&zR,&psi2);
-	  } else { 
+	  } else {
 			/* plasma dispersion function of z=zR+i*zI is calculated in
 			   this loop */
 	    ffx=(long)x;
 	    pR=x-ffx;
-	    ix=(4*ffx+256*ffy);  
+	    ix=(4*ffx+256*ffy);
 
 	    i1=ix+1;i2=ix+2;i3=ix+3;
 			/* calculate the complex polynomial: */
@@ -116,14 +120,16 @@ void adminvec(int *nom,double *pldfvPr,double *pldfvPi,double *apuprv,double *ap
 	    resI = resR * pI + resI * pR + pldfvPi[i2];
 	    resR = resRo * pR - resI * pI + pldfvPr[i3];
 	    resI = resRo * pI + resI * pR + pldfvPi[i3];
-			
+
 	    if (zR<0) { resR = -resR;} /* pldf is conjugate symmetric */
 /*			flops += 26;*/
-	  } 
+	  }
 		/* at last, calculate admittance expressions as long as can be done
 		   without introducing Ni dependence : */
-	  apupr = 1.0 - *psi*resI;
-	  apupi = -*psi*resR;
+	  //	  apupr = 1.0 - *psi*resI;
+	  //	  apupi = -*psi*resR;
+	  apupr = 1.0 - (*psi)*(*gam)*resI;
+	  apupi = -(*psi)*(*gam)*resR;
 	  apusqr =  1.0 / (apupr*apupr + apupi*apupi);
 	  apuuapr = apupr;
 	  apuprv[k] = (resI*apupr  +  apupi * resR)*apusqr;
@@ -144,7 +150,7 @@ void specCalc(double *pldfvPr,double *pldfvPi,double *nin0Pr,double *tit0Pr,int 
 	double *apuprv,*apupiv,*apuprvref,*apupivref;
 	double zR;
 
-	/* For reference spectra, the normalized parameters affecting stored admittances 
+	/* For reference spectra, the normalized parameters affecting stored admittances
 	   are kept in scr. These values need to be preserved between successive calls */
 	psiref=&scr[0];
 	viref=&scr[1*maxflakes];
@@ -157,12 +163,12 @@ void specCalc(double *pldfvPr,double *pldfvPi,double *nin0Pr,double *tit0Pr,int 
 	   need to be preserved between successive calls */
 	apuprvref=&scr[3*maxflakes+2*maxflakes* (*nom)];
 	apupivref=&scr[3*maxflakes+3*maxflakes* (*nom)];
-	
-	for(i=0;i<(*nion+1);i++) 
+
+	for(i=0;i<(*nion+1);i++)
 		{
-		gamPr[i] = (float)sqrt( (float)(mim0Pr[i]/tit0Pr[i]) ); 
-		npertPr[i] = (nin0Pr[i]/tit0Pr[i]); 
-		gamnPr[i] = gamPr[i] * nin0Pr[i]; 
+		gamPr[i] = (float)sqrt( (float)(mim0Pr[i]/tit0Pr[i]) );
+		npertPr[i] = (nin0Pr[i]/tit0Pr[i]);
+		gamnPr[i] = gamPr[i] * nin0Pr[i];
 		/* test if parameters effecting admittance vector has changed and in that case recalculate */
 		if ( (psiref[i] != psiPr[i]) || (viref[i] != viPr[i]) || (gamref[i] != gamPr[i]) ) {
 		  adminvec(nom,pldfvPr,pldfvPi,&apuprv[i* (*nom)],&apupiv[i* (*nom)],
@@ -173,7 +179,7 @@ void specCalc(double *pldfvPr,double *pldfvPi,double *nin0Pr,double *tit0Pr,int 
 		    apupiv[i* (*nom)+k]=apupivref[i* (*nom)+k];
 			}
 		}
-		if (*ifref == 1) { /* if reference spectra is specified, store admittances 
+		if (*ifref == 1) { /* if reference spectra is specified, store admittances
 		                     and parameters affecting them for later use */
 			psiref[i] = psiPr[i];
 			viref[i] = viPr[i];
@@ -192,7 +198,7 @@ void specCalc(double *pldfvPr,double *pldfvPi,double *nin0Pr,double *tit0Pr,int 
 		for(i=0;i< (*nion);i++){
 			zR=(omPr[k]-viPr[i])*gamPr[i];
 			yais+=(1.0+zR*apupiv[k+i* (*nom)])*npertPr[i];
-			yars+=apuprv[k+i* (*nom)]*zR*npertPr[i]; 
+			yars+=apuprv[k+i* (*nom)]*zR*npertPr[i];
 			uars+=apuprv[k+i* (*nom)]*gamnPr[i];
 		}
 		/* electron admittance: */
