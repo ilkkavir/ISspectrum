@@ -2,7 +2,7 @@ ISspectrum.iri <- function( time = c(2000,1,1,11,0,0) , latitude=69.58864 , long
   {
 
     
-    iripar <- iriParams( time=time , latitude=latitude , longitude=longitude , heights=heights)
+    iripar <- IRI2016::iriParams( time=time , latitude=latitude , longitude=longitude , heights=heights)
 
 
     # the iri model returns -1 at heights where densities are not calculated
@@ -18,7 +18,7 @@ ISspectrum.iri <- function( time = c(2000,1,1,11,0,0) , latitude=69.58864 , long
     spectra <- matrix(nrow=nh,ncol=nf)
     for(k in seq(nh)){
 
-      cfreq <- ionNeutralCollisionFrequency(iripar[,k])
+      cfreq <- IRI2016::ionNeutralCollisionFrequency(iripar[,k])
       ele <- c(iripar[c('e-','Te'),k],0,0)
       ion <- list(
                   c(16,iripar[c('O+','Ti') , k] ,sum(cfreq['O+',]) ,0),

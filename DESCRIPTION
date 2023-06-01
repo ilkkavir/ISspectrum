@@ -6,5 +6,5 @@ Author: Ilkka Virtanen <ilkka.i.virtanen@oulu.fi>
 Maintainer: Ilkka Virtanen <ilkka.i.virtanen@oulu.fi>
 Description: R-interface to GUISDAP C-routines for incoherent scatter spectrum calculation
 License: FreeBSD
-Depends: IRI2016
+Suggests: IRI2016
 Copyright: University of Oulu, Finland
