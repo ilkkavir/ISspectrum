@@ -1,0 +1,23 @@
+PKG_CFLAGS=-O3 -march=native -ffast-math -funroll-loops -mprefer-vector-width=512 -Wall -fopt-info-loop-vec -funsafe-math-optimizations
+PKG_LIBS+=-lm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

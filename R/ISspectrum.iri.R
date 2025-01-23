@@ -1,6 +1,6 @@
 ISspectrum.iri <- function( time = c(2000,1,1,11,0,0) , latitude=69.58864 , longitude=19.2272 , heights=seq(1,1000) , fradar=233e6,scattAngle=180,freq=seq(-1000,1000)*4,savePlasmaParams=FALSE)
   {
-
+      library(IRI2016)
     
       iripar <- IRI2016::iriParams( time=time , latitude=latitude , longitude=longitude , heights=heights)
 
